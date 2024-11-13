@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   Camera,
-  Maximize2,
-  Minimize2,
+//   Maximize2,
+//   Minimize2,
   RefreshCcw,
   Image as ImageIcon,
   X,
