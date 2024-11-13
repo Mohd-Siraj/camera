@@ -28,6 +28,35 @@ const ImageCapture = () => {
 
   // ... all the same functions as before ...
 
+   const startCamera = async () => {
+     try {
+       const constraints = {
+         video: {
+           facingMode: isFrontCamera ? "user" : "environment",
+           zoom: true,
+         },
+       };
+
+       const mediaStream = await navigator.mediaDevices.getUserMedia(
+         constraints
+       );
+       setStream(mediaStream);
+
+       if (videoRef.current) {
+         videoRef.current.srcObject = mediaStream;
+       }
+
+       // Get supported zoom capabilities
+       const track = mediaStream.getVideoTracks()[0];
+       const capabilities = track.getCapabilities();
+       if (capabilities.zoom) {
+         setZoomLevel(capabilities.zoom.min);
+       }
+     } catch (err) {
+       console.error("Error accessing camera:", err);
+     }
+   };
+
   useEffect(() => {
     startCamera();
     return () => {
@@ -37,34 +66,7 @@ const ImageCapture = () => {
     };
   }, [isFrontCamera]);
 
-  const startCamera = async () => {
-    try {
-      const constraints = {
-        video: {
-          facingMode: isFrontCamera ? "user" : "environment",
-          zoom: true,
-        },
-      };
-
-      const mediaStream = await navigator.mediaDevices.getUserMedia(
-        constraints
-      );
-      setStream(mediaStream);
-
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-      }
-
-      // Get supported zoom capabilities
-      const track = mediaStream.getVideoTracks()[0];
-      const capabilities = track.getCapabilities();
-      if (capabilities.zoom) {
-        setZoomLevel(capabilities.zoom.min);
-      }
-    } catch (err) {
-      console.error("Error accessing camera:", err);
-    }
-  };
+ 
 
   const deleteImage = (index) => {
     setCapturedImages((prevImages) => {
