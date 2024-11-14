@@ -81,27 +81,27 @@ const ImageCapture = () => {
     });
   };
 
-  // const handleZoom = async (newZoom) => {
-  //   if (stream) {
-  //     const track = stream.getVideoTracks()[0];
-  //     const capabilities = await track.getCapabilities();
+  const handleZoom = async (newZoom) => {
+    if (stream) {
+      const track = stream.getVideoTracks()[0];
+      const capabilities = await track.getCapabilities();
 
-  //     // Check if zoom is supported and the new zoom level is within the supported range
-  //     if (capabilities.zoom) {
-  //       const { min, max } = capabilities.zoom;
-  //       if (newZoom >= min && newZoom <= max) {
-  //         await track.applyConstraints({ advanced: [{ zoom: newZoom }] });
-  //         setZoomLevel(newZoom);
-  //       } else {
-  //         window.alert(
-  //           `Zoom level ${newZoom} is out of the supported range (${min} - ${max})`
-  //         );
-  //       }
-  //     } else {
-  //       window.alert("Zoom is not supported on this device");
-  //     }
-  //   }
-  // };
+      // Check if zoom is supported and the new zoom level is within the supported range
+      if (capabilities.zoom) {
+        const { min, max } = capabilities.zoom;
+        if (newZoom >= min && newZoom <= max) {
+          await track.applyConstraints({ advanced: [{ zoom: newZoom }] });
+          setZoomLevel(newZoom);
+        } else {
+          window.alert(
+            `Zoom level ${newZoom} is out of the supported range (${min} - ${max})`
+          );
+        }
+      } else {
+        window.alert("Zoom is not supported on this device");
+      }
+    }
+  };
 
   const switchCamera = () => {
     if (stream) {
@@ -194,7 +194,7 @@ const ImageCapture = () => {
       </div>
       {/* Zoom controls */}
 
-      {/* <div className="absolute right-4 top-1/2 transform -translate-y-1/2 center">
+      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 center">
         <input
           type="range"
           min="1"
@@ -203,15 +203,15 @@ const ImageCapture = () => {
           value={zoomLevel}
           onChange={(e) => handleZoom(parseFloat(e.target.value))}
           className="w-32 h-1 appearance-none bg-white rounded-lg"
-          style={{ writingMode: "bt-lr", transform: "rotate(90deg)" }}
+          style={{ writingMode: "bt-lr", transform: "rotate(180deg)" }}
         />
-      </div> */}
+      </div>
 
-      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-2">
+      {/* <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-2">
         <button
           onClick={ZoomIn}
           disabled={zoomLevel >= 5}
-          className="p-2 bg-white rounded-lg hover:bg-gray-100 disabled:opacity-50"
+          className="p-2 bg-white rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Zoom in"
         >
           <ZoomIn className="w-5 h-5" />
@@ -219,12 +219,12 @@ const ImageCapture = () => {
         <button
           onClick={ZoomOut}
           disabled={zoomLevel <= 1}
-          className="p-2 bg-white rounded-lg hover:bg-gray-100 disabled:opacity-50"
+          className="p-2 bg-white rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Zoom out"
         >
           <ZoomOut className="w-5 h-5" />
         </button>
-      </div>      
+      </div>     */}
 
       {/* Aspect ratio selector */}
       <div className="flex justify-center gap-2 mt-4 center">
