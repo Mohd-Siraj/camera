@@ -6,7 +6,10 @@ import {
   RefreshCcw,
   Image as ImageIcon,
   X,
+  ZoomIn,
+ZoomOut
 } from "lucide-react";
+// import "/index.css"
 
 const ASPECT_RATIOS = {
   SQUARE: { width: 1, height: 1, label: "1:1" },
@@ -25,6 +28,8 @@ const ImageCapture = () => {
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+
+  
 
   // ... all the same functions as before ...
 
@@ -76,27 +81,27 @@ const ImageCapture = () => {
     });
   };
 
-  const handleZoom = async (newZoom) => {
-    if (stream) {
-      const track = stream.getVideoTracks()[0];
-      const capabilities = await track.getCapabilities();
+  // const handleZoom = async (newZoom) => {
+  //   if (stream) {
+  //     const track = stream.getVideoTracks()[0];
+  //     const capabilities = await track.getCapabilities();
 
-      // Check if zoom is supported and the new zoom level is within the supported range
-      if (capabilities.zoom) {
-        const { min, max } = capabilities.zoom;
-        if (newZoom >= min && newZoom <= max) {
-          await track.applyConstraints({ advanced: [{ zoom: newZoom }] });
-          setZoomLevel(newZoom);
-        } else {
-          console.warn(
-            `Zoom level ${newZoom} is out of the supported range (${min} - ${max})`
-          );
-        }
-      } else {
-        console.warn("Zoom is not supported on this device");
-      }
-    }
-  };
+  //     // Check if zoom is supported and the new zoom level is within the supported range
+  //     if (capabilities.zoom) {
+  //       const { min, max } = capabilities.zoom;
+  //       if (newZoom >= min && newZoom <= max) {
+  //         await track.applyConstraints({ advanced: [{ zoom: newZoom }] });
+  //         setZoomLevel(newZoom);
+  //       } else {
+  //         window.alert(
+  //           `Zoom level ${newZoom} is out of the supported range (${min} - ${max})`
+  //         );
+  //       }
+  //     } else {
+  //       window.alert("Zoom is not supported on this device");
+  //     }
+  //   }
+  // };
 
   const switchCamera = () => {
     if (stream) {
@@ -149,87 +154,101 @@ const ImageCapture = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 ">
-      <div className="bg-white rounded-lg shadow-lg mb-4">
-        {" "}
-        {/* Replaced Card */}
-        <div className="p-4">
-          {" "}
-          {/* Replaced CardContent */}
-          <div className="relative flex justify-center">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              className="w-full rounded-lg"
-              style={{
-                aspectRatio: `${selectedRatio.width}/${selectedRatio.height}`,
-              }}
-            />
+    <div className="w-screen h-screen p-4 flex flex-col items-center bg-slate-400">
+      {/* <div className="bg-white rounded-lg shadow-lg mb-4 w-full"> */}
 
-            {/* Camera controls */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4">
-              <button
-                onClick={switchCamera}
-                className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100"
-              >
-                <RefreshCcw className="w-6 h-6" />
-              </button>
-
-              <button
-                onClick={captureImage}
-                className="p-4 bg-white rounded-full shadow-lg hover:bg-gray-100"
-              >
-                <Camera className="w-8 h-8" />
-              </button>
-
-              <button
-                onClick={() => setIsGalleryOpen(!isGalleryOpen)}
-                className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100"
-              >
-                <ImageIcon className="w-6 h-6" />
-              </button>
-            </div>
-
-            {/* Zoom controls */}
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-              <input
-                type="range"
-                min="1"
-                max="5"
-                step="0.1"
-                value={zoomLevel}
-                onChange={(e) => handleZoom(parseFloat(e.target.value))}
-                className="w-32 h-1 appearance-none bg-white rounded-lg"
-                style={{ writingMode: "bt-lr", transform: "rotate(90deg)" }}
-              />
-            </div>
-          </div>
-          {/* Aspect ratio selector */}
-          <div className="flex justify-center gap-2 mt-4">
-            {Object.entries(ASPECT_RATIOS).map(([key, ratio]) => (
-              <button
-                key={key}
-                onClick={() => setSelectedRatio(ratio)}
-                className={`px-3 py-1 rounded ${
-                  selectedRatio === ratio
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200"
-                }`}
-              >
-                {ratio.label}
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* camera */}
+      <div className="w-full flex justify-center center">
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          className="rounded-lg"
+          style={{
+            aspectRatio: `${selectedRatio.width}/${selectedRatio.height}`,
+          }}
+        />
       </div>
+      {/* Camera controls */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4 center">
+        <button
+          onClick={switchCamera}
+          className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100"
+        >
+          <RefreshCcw className="w-6 h-6" />
+        </button>
+
+        <button
+          onClick={captureImage}
+          className="p-4 bg-white rounded-full shadow-lg hover:bg-gray-100"
+        >
+          <Camera className="w-8 h-8" />
+        </button>
+
+        <button
+          onClick={() => setIsGalleryOpen(!isGalleryOpen)}
+          className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100"
+        >
+          <ImageIcon className="w-6 h-6" />
+        </button>
+      </div>
+      {/* Zoom controls */}
+
+      {/* <div className="absolute right-4 top-1/2 transform -translate-y-1/2 center">
+        <input
+          type="range"
+          min="1"
+          max="5"
+          step="0.1"
+          value={zoomLevel}
+          onChange={(e) => handleZoom(parseFloat(e.target.value))}
+          className="w-32 h-1 appearance-none bg-white rounded-lg"
+          style={{ writingMode: "bt-lr", transform: "rotate(90deg)" }}
+        />
+      </div> */}
+
+      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-2">
+        <button
+          onClick={ZoomIn}
+          disabled={zoomLevel >= 5}
+          className="p-2 bg-white rounded-lg hover:bg-gray-100 disabled:opacity-50"
+          aria-label="Zoom in"
+        >
+          <ZoomIn className="w-5 h-5" />
+        </button>
+        <button
+          onClick={ZoomOut}
+          disabled={zoomLevel <= 1}
+          className="p-2 bg-white rounded-lg hover:bg-gray-100 disabled:opacity-50"
+          aria-label="Zoom out"
+        >
+          <ZoomOut className="w-5 h-5" />
+        </button>
+      </div>      
+
+      {/* Aspect ratio selector */}
+      <div className="flex justify-center gap-2 mt-4 center">
+        {Object.entries(ASPECT_RATIOS).map(([key, ratio]) => (
+          <button
+            key={key}
+            onClick={() => setSelectedRatio(ratio)}
+            className={`px-3 py-1 rounded ${
+              selectedRatio === ratio ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
+          >
+            {ratio.label}
+          </button>
+        ))}
+      </div>
+
+      {/* </div> */}
 
       {/* Hidden canvas for image capture */}
       <canvas ref={canvasRef} className="hidden" />
 
       {/* Image gallery */}
       {isGalleryOpen && (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 center">
           {capturedImages.map((image, index) => (
             <div key={index} className="relative group cursor-pointer">
               <img
@@ -239,7 +258,7 @@ const ImageCapture = () => {
               />
               <button
                 onClick={() => deleteImage(index)}
-                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-lg hover:bg-gray-200"
+                className="absolute top-6 right-6 bg-white rounded-full p-1 shadow-lg hover:bg-gray-200"
               >
                 <X className="w-4 h-4" />
               </button>
