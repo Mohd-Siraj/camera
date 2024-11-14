@@ -203,7 +203,7 @@ const ImageCapture = () => {
           value={zoomLevel}
           onChange={(e) => handleZoom(parseFloat(e.target.value))}
           className="w-32 h-1 appearance-none bg-white rounded-lg"
-          style={{ writingMode: "bt-lr", transform: "rotate(180deg)" }}
+          style={{ writingMode: "bt-lr", transform: "rotate(0deg)" }}
         />
       </div>
 
