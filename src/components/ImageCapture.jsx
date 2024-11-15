@@ -158,7 +158,7 @@ const ImageCapture = () => {
       {/* <div className="bg-white rounded-lg shadow-lg mb-4 w-full"> */}
 
       {/* camera */}
-      <div className="w-full flex justify-center center">
+      <div className="w-full flex justify-center center max-w-full h-auto">
         <video
           ref={videoRef}
           autoPlay
@@ -166,6 +166,8 @@ const ImageCapture = () => {
           className="rounded-lg"
           style={{
             aspectRatio: `${selectedRatio.width}/${selectedRatio.height}`,
+            maxWidth: "100%",
+            height: "auto",
           }}
         />
       </div>
@@ -244,23 +246,29 @@ const ImageCapture = () => {
       {/* </div> */}
 
       {/* Hidden canvas for image capture */}
-      <canvas ref={canvasRef} className="hidden" />
+      <div className="flex justify-center center max-w-full h-auto">
+        <canvas ref={canvasRef} className="max-w-full h-auto" />
+      </div>
 
       {/* Image gallery */}
-      {isGalleryOpen && (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 center">
+     {isGalleryOpen && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 mt-4" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}>
           {capturedImages.map((image, index) => (
-            <div key={index} className="relative group cursor-pointer">
+            <div key={index} className="grid relative group" style={{ position: "relative" }}>
+              {/* Image */}
               <img
                 src={image}
-                alt={`Captured ${index + 1}`}
-                className="w-full h-full object-cover rounded-lg transition-transform duration-200 group-hover:scale-105"
+                alt="{Captured ${index + 1}}"
+                className="w-full h-48 object-cover rounded-lg transition-transform duration-200 group-hover:scale-105"
+                style={{ borderRadius: "10px",  flexWrap: "wrap",  objectFit: "cover" }}
               />
+              {/* Delete Button */}
               <button
+                style={{ position: "absolute", left: "27rem", top: "5px", cursor: "pointer" }}
                 onClick={() => deleteImage(index)}
-                className="absolute top-6 right-6 bg-white rounded-full p-1 shadow-lg hover:bg-gray-200"
+                className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-gray-200 transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
           ))}
