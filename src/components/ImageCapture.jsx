@@ -9,6 +9,7 @@ import {
   ZoomIn,
 ZoomOut
 } from "lucide-react";
+
 // import "/index.css"
 
 const ASPECT_RATIOS = {
@@ -175,6 +176,7 @@ const ImageCapture = () => {
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4 center">
         <button
           onClick={switchCamera}
+          title="Switch Camera"
           className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100"
         >
           <RefreshCcw className="w-6 h-6" />
@@ -251,20 +253,41 @@ const ImageCapture = () => {
       </div>
 
       {/* Image gallery */}
-     {isGalleryOpen && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 mt-4" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}>
+      {isGalleryOpen && (
+        <div
+          className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 mt-4"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "10px",
+          }}
+        >
           {capturedImages.map((image, index) => (
-            <div key={index} className="grid relative group" style={{ position: "relative" }}>
+            <div
+              key={index}
+              className="grid relative group"
+              style={{ position: "relative" }}
+            >
               {/* Image */}
               <img
                 src={image}
                 alt="{Captured ${index + 1}}"
-                className="w-full h-48 object-cover rounded-lg transition-transform duration-200 group-hover:scale-105"
-                style={{ borderRadius: "10px",  flexWrap: "wrap",  objectFit: "cover" }}
+                className="w-full h-48 object-cover transition-transform duration-200 group-hover:scale-105"
+                style={{
+                 
+                  flexWrap: "wrap",
+                  objectFit: "cover",
+                }}
               />
               {/* Delete Button */}
               <button
-                style={{ position: "absolute", left: "27rem", top: "5px", cursor: "pointer" }}
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  
+                  cursor: "pointer",
+                }}
                 onClick={() => deleteImage(index)}
                 className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-gray-200 transition-colors"
               >
